@@ -1,21 +1,21 @@
 package main
 
 import (
-    "os"
 	"fmt"
+	"os"
 	"strconv"
 	"strings"
 )
 
 func main() {
-	byte_data, _ := os.ReadFile("inputs/one.txt")
+	byte_data, _ := os.ReadFile("../inputs/one.txt")
 	data := strings.Fields(string(byte_data))
 	left := []int{}
 	right := []int{}
 	// create an array for each column
-	for i:=0; i<len(data); i++ {
+	for i := 0; i < len(data); i++ {
 		num, _ := strconv.Atoi(data[i])
-		if i % 2 == 0 {
+		if i%2 == 0 {
 			left = append(left, num)
 		} else {
 			right = append(right, num)
@@ -31,8 +31,8 @@ func main() {
 	// }
 	// fmt.Print(sum)
 	sim_score := 0
-	for i:=0; i<len(left); i++ {
-		for j:=0; j<len(right); j++ {
+	for i := 0; i < len(left); i++ {
+		for j := 0; j < len(right); j++ {
 			if left[i] == right[j] {
 				sim_score = sim_score + right[j]
 			}
@@ -46,7 +46,7 @@ func sort(input []int) []int {
 	for {
 		least := input[0]
 		least_index := 0
-		for j:=1;j<len(input);j++ {
+		for j := 1; j < len(input); j++ {
 			if input[j] < least {
 				least = input[j]
 				least_index = j
