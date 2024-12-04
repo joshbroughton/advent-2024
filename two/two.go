@@ -30,7 +30,20 @@ func Solve(reports []string) int {
 func SolveDampener(reports []string) int {
 	safe := 0
 	for i := 0; i < len(reports)-1; i++ {
-
+		report := strings.Fields(reports[i])
+		if IsSafe(report) {
+			safe++
+		} else {
+			for k := 0; k < len(report); k++ {
+				test_report := make([]string, len(report))
+				copy(test_report, report)
+				test_report = append(test_report[:k], test_report[k+1:]...)
+				if IsSafe(test_report) {
+					safe++
+					break
+				}
+			}
+		}
 	}
 
 	return safe

@@ -16,18 +16,18 @@ func TestSolve(t *testing.T) {
 }
 
 func TestSolveDampener(t *testing.T) {
-	byte_data, _ := os.ReadFile("test_input.txt")
+	byte_data, _ := os.ReadFile("text_input_two.txt")
 	data := strings.Split(string(byte_data), "\n")
 	result := SolveDampener(data)
-	if result != 9 {
-		t.Fatalf(`Expected 9, got %v`, result)
+	if result != 10 {
+		t.Fatalf(`Expected 10, got %v`, result)
 	}
 }
 
-func TestBase(t *testing.T) {
-	data := []string{"1 3 2 4 5"}
-	result := SolveDampener(data)
-	if result != 1 {
-		t.Fatalf(`Expected 1, got %v`, result)
+func TestIsSafe(t *testing.T) {
+	data := []string{"1", "2", "4", "5"}
+	result := IsSafe(data)
+	if result != true {
+		t.Fatalf(`Expected true, got %v`, result)
 	}
 }
