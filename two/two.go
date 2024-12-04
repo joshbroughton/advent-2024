@@ -18,25 +18,8 @@ func main() {
 func Solve(reports []string) int {
 	safe := 0
 	for i := 0; i < len(reports)-1; i++ {
-		levels := strings.Fields(reports[i])
-		direction := Direction(levels[0], levels[1])
-		is_safe := true
-		for j := 0; j < len(levels)-1; j++ {
-			current, _ := strconv.Atoi(levels[j])
-			next, _ := strconv.Atoi(levels[j+1])
-			if direction {
-				if current >= next || next-current > 3 {
-					is_safe = false
-					break
-				}
-			} else {
-				if current <= next || current-next > 3 {
-					is_safe = false
-					break
-				}
-			}
-		}
-		if is_safe {
+		report := strings.Fields(reports[i])
+		if IsSafe(report) {
 			safe++
 		}
 	}
@@ -47,57 +30,7 @@ func Solve(reports []string) int {
 func SolveDampener(reports []string) int {
 	safe := 0
 	for i := 0; i < len(reports)-1; i++ {
-		levels := strings.Fields(reports[i])
-		direction := Direction(levels[0], levels[1])
-		faults := 0
-		first := true
-		length := len(levels) - 1
-		for j := 0; j < length; j++ {
-			current, _ := strconv.Atoi(levels[j])
-			next, _ := strconv.Atoi(levels[j+1])
-			if direction {
-				if current >= next || next-current > 3 {
-					faults++
-					if first {
-						next, _ = strconv.Atoi(levels[j+2])
-						if current >= next || next-current > 3 {
-							levels = levels[1:]
-							direction = Direction(levels[0], levels[1])
-						} else {
-							levels = append(levels[:j+1], levels[j+2:]...)
-						}
-					} else {
-						levels = append(levels[:j+1], levels[j+2:]...)
-					}
-					length--
-					j--
-				}
-			} else {
-				if current <= next || current-next > 3 {
-					faults++
-					if first {
-						next, _ = strconv.Atoi(levels[j+2])
-						if current <= next || current-next > 3 {
-							levels = levels[1:]
-							direction = Direction(levels[0], levels[1])
-						} else {
-							levels = append(levels[:j+1], levels[j+2:]...)
-						}
-					} else {
-						levels = append(levels[:j+1], levels[j+2:]...)
-					}
-					length--
-					j--
-				}
-			}
-			if faults > 1 {
-				break
-			}
-			first = false
-		}
-		if faults <= 1 {
-			safe++
-		}
+
 	}
 
 	return safe
@@ -112,4 +45,26 @@ func Direction(first_string string, second_string string) bool {
 	} else {
 		return true
 	}
+}
+
+func IsSafe(report []string) bool {
+	report_safe := true
+	direction := Direction(report[0], report[1])
+	for j := 0; j < len(report)-1; j++ {
+		current, _ := strconv.Atoi(report[j])
+		next, _ := strconv.Atoi(report[j+1])
+		if direction {
+			if current >= next || next-current > 3 {
+				report_safe = false
+				break
+			}
+		} else {
+			if current <= next || current-next > 3 {
+				report_safe = false
+				break
+			}
+		}
+	}
+
+	return report_safe
 }

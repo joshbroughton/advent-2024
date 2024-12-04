@@ -23,3 +23,11 @@ func TestSolveDampener(t *testing.T) {
 		t.Fatalf(`Expected 9, got %v`, result)
 	}
 }
+
+func TestBase(t *testing.T) {
+	data := []string{"1 3 2 4 5"}
+	result := SolveDampener(data)
+	if result != 1 {
+		t.Fatalf(`Expected 1, got %v`, result)
+	}
+}
