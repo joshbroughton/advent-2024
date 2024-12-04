@@ -11,7 +11,8 @@ func main() {
 	byte_data, _ := os.ReadFile("../inputs/two.txt")
 	// byte_data, _ := os.ReadFile("test_input.txt")
 	data := strings.Split(string(byte_data), "\n")
-	fmt.Print(Solve(data))
+	fmt.Println(Solve(data))
+	fmt.Println(SolveDampener(data))
 }
 
 func Solve(reports []string) int {
@@ -48,23 +49,53 @@ func SolveDampener(reports []string) int {
 	for i := 0; i < len(reports)-1; i++ {
 		levels := strings.Fields(reports[i])
 		direction := Direction(levels[0], levels[1])
-		is_safe := true
-		for j := 0; j < len(levels)-1; j++ {
+		faults := 0
+		first := true
+		length := len(levels) - 1
+		for j := 0; j < length; j++ {
 			current, _ := strconv.Atoi(levels[j])
 			next, _ := strconv.Atoi(levels[j+1])
 			if direction {
 				if current >= next || next-current > 3 {
-					is_safe = false
-					break
+					faults++
+					if first {
+						next, _ = strconv.Atoi(levels[j+2])
+						if current >= next || next-current > 3 {
+							levels = levels[1:]
+							direction = Direction(levels[0], levels[1])
+						} else {
+							levels = append(levels[:j+1], levels[j+2:]...)
+						}
+					} else {
+						levels = append(levels[:j+1], levels[j+2:]...)
+					}
+					length--
+					j--
 				}
 			} else {
 				if current <= next || current-next > 3 {
-					is_safe = false
-					break
+					faults++
+					if first {
+						next, _ = strconv.Atoi(levels[j+2])
+						if current <= next || current-next > 3 {
+							levels = levels[1:]
+							direction = Direction(levels[0], levels[1])
+						} else {
+							levels = append(levels[:j+1], levels[j+2:]...)
+						}
+					} else {
+						levels = append(levels[:j+1], levels[j+2:]...)
+					}
+					length--
+					j--
 				}
 			}
+			if faults > 1 {
+				break
+			}
+			first = false
 		}
-		if is_safe {
+		if faults <= 1 {
 			safe++
 		}
 	}

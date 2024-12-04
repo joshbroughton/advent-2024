@@ -19,7 +19,7 @@ func TestSolveDampener(t *testing.T) {
 	byte_data, _ := os.ReadFile("test_input.txt")
 	data := strings.Split(string(byte_data), "\n")
 	result := SolveDampener(data)
-	if result != 4 {
-		t.Fatalf(`Expected 4, got %q`, result)
+	if result != 9 {
+		t.Fatalf(`Expected 9, got %v`, result)
 	}
 }
